@@ -1,7 +1,7 @@
 CC := gcc
 CFLAGS := -Wall 
 
-NAME := licence
+NAME := license
 SRC := $(NAME).c
 DEST := ./build/$(NAME)
 
