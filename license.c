@@ -5,6 +5,9 @@
 #define MAX_CHARS 30
 #define MAX_ITEMS 10
 
+#define BYTE 1
+#define LICENSE_PLATE_LENGTH 7
+
 int main(int argc, char **argv)
 {
     if (argc != 2)
@@ -25,20 +28,33 @@ int main(int argc, char **argv)
         return EXIT_FAILURE;
     }
 
-    char licensePlates[MAX_ITEMS][MAX_CHARS] = { '\0' };
+    char licensePlates1[MAX_ITEMS][MAX_CHARS] = { '\0' };
+    char licensePlates2[MAX_ITEMS][MAX_CHARS] = { '\0' };
 
-    // Read the file row by row but insetrts the '\n' at the end of strings
-    // int itemCount = 0;
-    // do
-    // {
-    //     fgets (licensePlates[itemCount], MAX_CHARS, fp);
-    //     printf ("%s\n", licensePlates[itemCount]);
-
-    //     itemCount++;
-
-    // } while (feof(fp) == 0);
+    // First way to read the file is to read it row by row 
+    // then replace the '\n' with nul
+    printf ("First way\n");
 
     __int32 itemCount = 0;
+    
+    while (fread (licensePlates1[itemCount], BYTE, LICENSE_PLATE_LENGTH, fp) == LICENSE_PLATE_LENGTH)
+    {
+        licensePlates1[itemCount++][6] = '\0';
+    } 
+
+    for (int i = 0; i < itemCount; i++)
+    {
+        printf ("%s\n", licensePlates1[i]);
+    }
+
+
+    // Second way to read the file is to read charachter by character
+    fp = freopen (file_in, "r", fp);
+
+    printf ("\n");
+    printf ("Second way\n");
+
+    itemCount = 0;
     __int32 charCount = 0;
 
     char readChar = '\0';
@@ -47,7 +63,7 @@ int main(int argc, char **argv)
     {
         if (readChar != '\n' && charCount < MAX_CHARS)
         {
-            licensePlates[itemCount][charCount++] = readChar;
+            licensePlates2[itemCount][charCount++] = readChar;
         }
         else
         {
@@ -58,7 +74,7 @@ int main(int argc, char **argv)
 
     for (int i = 0; i < itemCount; i++)
     {
-        printf ("%s\n", licensePlates[i]);
+        printf ("%s\n", licensePlates2[i]);
     }
 
 
